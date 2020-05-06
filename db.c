@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 struct InputBuffer_t {
   char* buffer;
@@ -29,8 +30,10 @@ typedef enum PrepareResult_t PrepareResult;
 enum StatementType_t { STATEMENT_INSERT, STATEMENT_SELECT };
 typedef enum StatementType_t StatementType;
 
-const uint32_t COLUMN_USERNAME_SIZE = 32;
-const uint32_t COLUMN_EMAIL_SIZE = 255;
+//const uint32_t COLUMN_USERNAME_SIZE = 32;
+//const uint32_t COLUMN_EMAIL_SIZE = 255;
+#define COLUMN_USERNAME_SIZE 32
+#define COLUMN_EMAIL_SIZE 255
 struct Row_t {
   uint32_t id;
   char username[COLUMN_USERNAME_SIZE];
@@ -44,18 +47,34 @@ struct Statement_t {
 };
 typedef struct Statement_t Statement;
 
-const uint32_t ID_SIZE = sizeof(((Row*)0)->id);
-const uint32_t USERNAME_SIZE = sizeof(((Row*)0)->username);
-const uint32_t EMAIL_SIZE = sizeof(((Row*)0)->email);
-const uint32_t ID_OFFSET = 0;
-const uint32_t USERNAME_OFFSET = ID_OFFSET + ID_SIZE;
-const uint32_t EMAIL_OFFSET = USERNAME_OFFSET + USERNAME_SIZE;
-const uint32_t ROW_SIZE = ID_SIZE + USERNAME_SIZE + EMAIL_SIZE;
+/*
+   const uint32_t ID_SIZE = sizeof(((Row*)0)->id);
+   const uint32_t USERNAME_SIZE = sizeof(((Row*)0)->username);
+   const uint32_t EMAIL_SIZE = sizeof(((Row*)0)->email);
+   const uint32_t ID_OFFSET = 0;
+   const uint32_t USERNAME_OFFSET = ID_OFFSET + ID_SIZE;
+   const uint32_t EMAIL_OFFSET = USERNAME_OFFSET + USERNAME_SIZE;
+   const uint32_t ROW_SIZE = ID_SIZE + USERNAME_SIZE + EMAIL_SIZE;
 
-const uint32_t PAGE_SIZE = 4096;
-const uint32_t TABLE_MAX_PAGES = 100;
-const uint32_t ROWS_PER_PAGE = PAGE_SIZE / ROW_SIZE;
-const uint32_t TABLE_MAX_ROWS = ROWS_PER_PAGE * TABLE_MAX_PAGES;
+   const uint32_t PAGE_SIZE = 4096;
+   const uint32_t TABLE_MAX_PAGES = 100;
+   const uint32_t ROWS_PER_PAGE = PAGE_SIZE / ROW_SIZE;
+   const uint32_t TABLE_MAX_ROWS = ROWS_PER_PAGE * TABLE_MAX_PAGES;
+ */
+#define  ID_SIZE sizeof(((Row*)0)->id)
+#define  USERNAME_SIZE sizeof(((Row*)0)->username)
+#define  EMAIL_SIZE sizeof(((Row*)0)->email)
+#define  ID_OFFSET 0
+#define  USERNAME_OFFSET ((ID_OFFSET) + (ID_SIZE))
+#define  EMAIL_OFFSET  ((USERNAME_OFFSET + USERNAME_SIZE))
+#define  ROW_SIZE  ((ID_SIZE + USERNAME_SIZE + EMAIL_SIZE))
+
+#define  PAGE_SIZE  4096
+#define  TABLE_MAX_PAGES  100
+#define  ROWS_PER_PAGE ((PAGE_SIZE) / (ROW_SIZE))
+#define  TABLE_MAX_ROWS  ((ROWS_PER_PAGE) * (TABLE_MAX_PAGES))
+
+
 
 struct Table_t {
   void* pages[TABLE_MAX_PAGES];
