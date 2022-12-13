@@ -1,5 +1,7 @@
-db: db.c
-	gcc db.c -g3 -O0 -o db
+CC := gcc
+CFLAGS := -g3 -O3
+
+db: db.c node.c
 
 run: db
 	./db mydb.db
